@@ -10,7 +10,7 @@ export class WindowComponent {
   #contentSize = 40;
   #contentGap = 6;
 
-  myCenter = input.required<boolean>();
+  doCenter = input.required<boolean>();
   myWindow = viewChild.required<ElementRef>('myWindow');
 
   redContent = computed(() => {
@@ -41,7 +41,7 @@ export class WindowComponent {
   });
 
   #scrollTo = computed(() => {
-    const onCenter = this.myCenter();
+    const onCenter = this.doCenter();
 
     return this.onCenter();
   });
@@ -55,9 +55,13 @@ export class WindowComponent {
 
     console.log('jsn: on-center:', scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
 
-    this.myWindow().nativeElement.scrollTo(0, scrollTo);
+    this.#doScrollTo(scrollTo);
 
     return scrollTo;
+  }
+
+  #doScrollTo(scrollTo: number) {
+    this.myWindow().nativeElement.scrollTo(0, scrollTo);
   }
 
   constructor() {
@@ -67,8 +71,7 @@ export class WindowComponent {
     afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
 
     effect(() => {
-      console.log("jsn: on-center effect:", this.#scrollTo());
-      this.onCenter();//this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
+      this.#doScrollTo(this.#scrollTo());
     });
   }
 
