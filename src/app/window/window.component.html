@@ -1,14 +1,18 @@
 <div class="my-window-container">
   <div class="my-window" #myWindow>
-    <div>-01-</div>
-    <div>-02-</div>
-    <div>-03-</div>
-    <div>-04-</div>
-    <div>-05-</div>
-    <div>-06-</div>
-    <div>-07-</div>
-    <div>-08-</div>
-    <div>-09-</div>
+    <div class="my-red">
+      @for (line of redContent(); track line.id) {
+      <div>R {{line.id}}</div>
+      }
+    </div>
+    <div class="my-gap">
+      <div>=={{gapContent()}}==</div>
+    </div>
+    <div class="my-blue" #myWindow>
+      @for (line of blueContent(); track line.id) {
+        <div>B {{line.id}}</div>
+      }
+    </div>
   </div>
 </div>
 
