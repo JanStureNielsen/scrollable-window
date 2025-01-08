@@ -54,9 +54,9 @@ export class WindowComponent {
     return scrollTo;
   });
 
-  #onCenter = computed(() => {
+  onCenter() {
     this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
-  });
+  }
 
   constructor() {
     //effect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
