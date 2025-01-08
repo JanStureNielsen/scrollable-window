@@ -1,13 +1,21 @@
 .my-window-container {
-  height: 200px;
+  height: 500px;
   width: 100px;
+  overflow: hidden;
+}
+
+.my-window {
+  height: 300px;
+  width: 130px;
   overflow-x: hidden;
   overflow-y: scroll;
   box-sizing: border-box;
+
 }
 
 .my-content {
-  height: 80px !important;
+  height: 100px !important;
+  width: 100px;
 
   &:first-of-type {
     display: inline-flex;
