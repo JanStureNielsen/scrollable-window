@@ -7,7 +7,7 @@ import {afterRenderEffect, Component, computed, effect, ElementRef, input, viewC
   styleUrl: './window.component.scss'
 })
 export class WindowComponent {
-  #contentSize = 100;
+  #contentSize = 40;
   #contentGap = 6;
 
   myCenter = input.required<boolean>();
@@ -54,13 +54,23 @@ export class WindowComponent {
     return scrollTo;
   });
 
+  #onCenter = computed(() => {
+    this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
+  });
+
   constructor() {
     //effect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
     //effect(() => setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100));
     //afterRenderEffect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
-    afterRenderEffect(() => setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100));
+    afterRenderEffect(() => {
+      console.log("jsn: afterRenderEffect:", this.#scrollTo());
+      setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100)
+    });
 
-    effect(() => console.log("jsn: on-center click:", this.myCenter()));
+    effect(() => {
+      console.log("jsn: on-center effect:", this.#scrollTo());
+      this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
+    });
   }
 
 }
