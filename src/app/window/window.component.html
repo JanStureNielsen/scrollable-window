@@ -1,6 +1,6 @@
 <div class="my-window-container">
   <div class="my-window" #myWindow>
-    <div class="my-red">
+    <div class="my-content">
       @for (line of redContent(); track line.id) {
       <div>R {{line.id}}</div>
       }
@@ -8,7 +8,7 @@
     <div class="my-gap">
       <div>=={{gapContent()}}==</div>
     </div>
-    <div class="my-blue" #myWindow>
+    <div class="my-content" #myWindow>
       @for (line of blueContent(); track line.id) {
         <div>B {{line.id}}</div>
       }
