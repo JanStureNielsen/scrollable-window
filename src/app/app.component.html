@@ -1,5 +1,6 @@
 <main>
-  <my-window/>
+  <button (click)="onClick()">center content</button>
+  <my-window [myCenter]="center()"/>
 </main>
 
 <router-outlet />
