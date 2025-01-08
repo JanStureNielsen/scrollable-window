@@ -41,35 +41,34 @@ export class WindowComponent {
   });
 
   #scrollTo = computed(() => {
-    // recalculate on center events
     const onCenter = this.myCenter();
+
+    return this.onCenter();
+  });
+
+  onCenter() {
     const nativeElement = this.myWindow().nativeElement;
     const scrollHeight: number = nativeElement.scrollHeight;
     const offsetHeight: number = nativeElement.offsetHeight;
 
     const scrollTo = 4 + (scrollHeight - offsetHeight) / 2;
 
-    console.log('jsn: scroll-to:', onCenter, scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
+    console.log('jsn: on-center:', scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
+
+    this.myWindow().nativeElement.scrollTo(0, scrollTo);
 
     return scrollTo;
-  });
-
-  onCenter() {
-    this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
   }
 
   constructor() {
     //effect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
     //effect(() => setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100));
     //afterRenderEffect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
-    afterRenderEffect(() => {
-      console.log("jsn: afterRenderEffect:", this.#scrollTo());
-      setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100)
-    });
+    afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
 
     effect(() => {
       console.log("jsn: on-center effect:", this.#scrollTo());
-      this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
+      this.onCenter();//this.myWindow().nativeElement.scrollTo(0, this.#scrollTo());
     });
   }
 
