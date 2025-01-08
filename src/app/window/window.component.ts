@@ -1,4 +1,4 @@
-import {afterRenderEffect, Component, computed, effect, ElementRef, viewChild} from '@angular/core';
+import {afterRenderEffect, Component, computed, effect, ElementRef, input, viewChild} from '@angular/core';
 
 @Component({
   selector: 'my-window',
@@ -10,7 +10,9 @@ export class WindowComponent {
   #contentSize = 100;
   #contentGap = 6;
 
+  myCenter = input.required<boolean>();
   myWindow = viewChild.required<ElementRef>('myWindow');
+
   redContent = computed(() => {
     const myContent = [];
     for (let i = this.#contentSize; i >= this.#contentSize/2 + this.#contentGap/2; i--) {
@@ -39,13 +41,15 @@ export class WindowComponent {
   });
 
   #scrollTo = computed(() => {
+    // recalculate on center events
+    const onCenter = this.myCenter();
     const nativeElement = this.myWindow().nativeElement;
     const scrollHeight: number = nativeElement.scrollHeight;
     const offsetHeight: number = nativeElement.offsetHeight;
 
     const scrollTo = 4 + (scrollHeight - offsetHeight) / 2;
 
-    console.log('jsn: scroll-to:', scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
+    console.log('jsn: scroll-to:', onCenter, scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
 
     return scrollTo;
   });
@@ -55,6 +59,8 @@ export class WindowComponent {
     //effect(() => setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100));
     //afterRenderEffect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
     afterRenderEffect(() => setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100));
+
+    effect(() => console.log("jsn: on-center click:", this.myCenter()));
   }
 
 }
