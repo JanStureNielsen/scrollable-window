@@ -7,72 +7,52 @@ import {afterRenderEffect, Component, computed, effect, ElementRef, input, viewC
   styleUrl: './window.component.scss'
 })
 export class WindowComponent {
-  #contentSize = 40;
-  #contentGap = 6;
-
-  doCenter = input.required<boolean>();
   myWindow = viewChild.required<ElementRef>('myWindow');
+  doCenter = input.required<boolean>();
 
-  redContent = computed(() => {
-    const myContent = [];
-    for (let i = this.#contentSize; i >= this.#contentSize/2 + this.#contentGap/2; i--) {
-      myContent.push({id: i});
-    }
-    //console.log('jsn: red: ', myContent);
-    return myContent;
-  });
+  content = this.#buildContent(100);
 
-  // assumes content is ordered...
-  gapContent = computed(() => {
-    const reds = this.redContent();
-    const blues = this.blueContent();
-    const gap = reds[reds.length-1].id - blues[0].id;
-    //console.log('jsn: gap: ', gap);
-    return gap;
-  });
-
-  blueContent = computed(() => {
-    const myContent = [];
-    for (let i = this.#contentSize/2 - this.#contentGap/2; i >= 0; i--) {
-      myContent.push({id: i});
-    }
-    //console.log('jsn: blue: ', myContent);
-    return myContent;
-  });
-
-  #scrollTo = computed(() => {
-    const onCenter = this.doCenter();
-
-    return this.onCenter();
-  });
+  constructor() {
+    //effect(() => this.onCenter());
+    //effect(() => setTimeout(() => this.onCenter(), 100));
+    afterRenderEffect(() => this.onCenter());
+    //afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
+  }
 
   onCenter() {
+    return this.#doScrollTo(this.#scrollTo());
+  }
+
+  #doOnCenter(onCenter: boolean) {
+    console.log('jsn: do-on-center', onCenter);
+    //ignore argument
+    this.onCenter();
+  }
+
+  #scrollTo() {
     const nativeElement = this.myWindow().nativeElement;
     const scrollHeight: number = nativeElement.scrollHeight;
     const offsetHeight: number = nativeElement.offsetHeight;
 
     const scrollTo = 4 + (scrollHeight - offsetHeight) / 2;
 
-    console.log('jsn: on-center:', scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
-
-    this.#doScrollTo(scrollTo);
+    console.log('jsn: scroll-to:', scrollTo, '(', scrollHeight, ', ', offsetHeight, ')', nativeElement);
 
     return scrollTo;
   }
 
   #doScrollTo(scrollTo: number) {
     this.myWindow().nativeElement.scrollTo(0, scrollTo);
+
+    return scrollTo;
   }
 
-  constructor() {
-    //effect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
-    //effect(() => setTimeout(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()), 100));
-    //afterRenderEffect(() => this.myWindow().nativeElement.scrollTo(0, this.#scrollTo()));
-    afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
-
-    effect(() => {
-      this.#doScrollTo(this.#scrollTo());
-    });
+  #buildContent(size: number) {
+    const contentArray = [];
+    for (let i = 0; i < size; i++) {
+      contentArray.push({id: i});
+    }
+    return contentArray;
   }
 
 }
