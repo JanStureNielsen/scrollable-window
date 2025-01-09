@@ -8,15 +8,13 @@ import {afterRenderEffect, Component, computed, effect, ElementRef, input, viewC
 })
 export class WindowComponent {
   myWindow = viewChild.required<ElementRef>('myWindow');
-  doCenter = input.required<boolean>();
-
   content = this.#buildContent(100);
 
   constructor() {
     //effect(() => this.onCenter());
     //effect(() => setTimeout(() => this.onCenter(), 100));
-    afterRenderEffect(() => this.onCenter());
-    //afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
+    //afterRenderEffect(() => this.onCenter());
+    afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
   }
 
   onCenter() {
