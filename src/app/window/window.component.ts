@@ -13,8 +13,8 @@ export class WindowComponent {
   constructor() {
     //effect(() => this.onCenter());
     //effect(() => setTimeout(() => this.onCenter(), 100));
-    //afterRenderEffect(() => this.onCenter());
-    afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
+    afterRenderEffect(() => this.onCenter());
+    //afterRenderEffect(() => setTimeout(() => this.onCenter(), 100));
   }
 
   onCenter() {
