@@ -8,11 +8,4 @@ import {WindowComponent} from './window/window.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'scrollable-window';
-  center = signal<boolean>(false);
-
-  onClick() {
-    this.center.set(!this.center());
-  }
-
 }
