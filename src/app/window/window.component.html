@@ -2,19 +2,9 @@
   <div class="my-window" #myWindow>
     <div class="my-content">
       @for (line of content; track line.id) {
-      <div>R {{line.id}}</div>
+      <div>{{line.id}}</div>
       }
     </div>
-    <!--
-    <div class="my-gap">
-      <div>=={{gapContent()}}==</div>
-    </div>
-    <div class="my-content" #myWindow>
-      @for (line of blueContent(); track line.id) {
-        <div>B {{line.id}}</div>
-      }
-    </div>
-    -->
   </div>
   <br/>
   <p>Trigger centering within child.</p>
